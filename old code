@@ -1,0 +1,87 @@
+const LABELS = ["", "Rock", "Paper", "Scissors"];
+const buttonRock = document.querySelector("#buttonrock");
+const buttonPaper = document.querySelector("#button-paper");
+const buttonScissors = document.querySelector("#button-scissors");
+const labelResults = document.querySelector(".results");
+const labelScore = document.querySelector(".score");
+
+
+buttonRock.onclick = () => playRound(1);
+buttonPaper.onclick = () => playRound(2);
+buttonScissors.onclick = () => playRound(3);
+
+let humanScore = 0;
+let computerScore = 0;
+
+// function playGame(roundCount) {
+//     let humanScore = 0;
+//     let computerScore = 0;
+
+//     for (let i = 0; i < roundCount; i++) {
+//         const result = playRound();
+//         if (result === 'human') {
+//             humanScore++;
+//         } else if (result === 'computer') {
+//             computerScore++;
+//         } else {
+//             humanScore++;
+//             computerScore++;
+//         }
+//     }
+
+//     console.log(`Game over! Final Score: Human - ${humanScore} | Computer - ${computerScore}`);
+// }
+
+function playRound(humanSelection) {
+    //const humanSelection = getHumanChoice();
+    const computerSelection = getComputerChoice();
+
+    if (humanSelection === computerSelection) {
+        labelResults.textContent = `It's a tie! Both chose ${LABELS[humanSelection]}`;
+        humanScore++;
+        computerScore++;
+        labelScore.textContent = `Score: Human - ${humanScore} | Computer - ${computerScore}`;
+        return 'tie';
+    }
+
+    const winner = determineWinner(humanSelection, computerSelection);
+    
+    if (winner === 'human') {
+        labelResults.textContent = `You win! Your ${LABELS[humanSelection]} beats Computer's ${LABELS[computerSelection]}`;
+        humanScore++;
+        labelScore.textContent = `Score: Human - ${humanScore} | Computer - ${computerScore}`;
+        return 'human';
+    } else {
+        labelResults.textContent = `You lose! Computer's ${LABELS[computerSelection]} beats your ${LABELS[humanSelection]}`;
+        computerScore++;
+        labelScore.textContent = `Score: Human - ${humanScore} | Computer - ${computerScore}`;
+        return 'computer';
+    }
+
+
+}
+
+function determineWinner(human, computer) {
+    if ((human === 1 && computer === 3) ||
+        (human === 2 && computer === 1) ||
+        (human === 3 && computer === 2)) {
+        return 'human';
+    }
+    return 'computer';
+}
+
+function getComputerChoice() {
+    return Math.floor(Math.random() * 3) + 1; // Random number between 1 and 3
+}
+
+// function getHumanChoice() {
+//     let choice;
+//     do {
+//         choice = Number(window.prompt("Enter your choice: [1] - Rock | [2] - Paper | [3] - Scissors"));
+//     } while (![1, 2, 3].includes(choice)); // Validate input
+
+//     return choice;
+// }
+
+// Start the game
+//playGame(5); // Example: play 5 rounds
